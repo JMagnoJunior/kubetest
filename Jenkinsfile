@@ -10,10 +10,18 @@ pipeline {
       }
     }
 
+    stage('Gradle Build') {
+        steps {
+            script{
+                sh './gradlew clean build'
+            }
+        }
+    }
+
       stage("Build image") {
             steps {
                 script {
-                    myapp = docker.build("jmagnojr/kubetest:${env.BUILD_ID}")
+                    myapp = docker.build("jmagnojunior/kubetest:${env.BUILD_ID}")
                 }
             }
         }
@@ -21,7 +29,7 @@ pipeline {
       stage("Push image") {
             steps {
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+                    docker.withRegistry('https://registry.hub.docker.com', '279557e8-e6b3-4c5b-a89e-c6fb00f11e86') {
                             myapp.push("latest")
                             myapp.push("${env.BUILD_ID}")
                     }
