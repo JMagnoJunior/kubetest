@@ -1,5 +1,6 @@
 import org.jetbrains.kotlin.gradle.dsl.Coroutines
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 val logback_version: String by project
 val ktor_version: String by project
@@ -7,6 +8,7 @@ val kotlin_version: String by project
 
 plugins {
     application
+    id("com.github.johnrengelman.shadow") version "5.1.0"
     kotlin("jvm") version "1.4.10"
 }
 
@@ -15,6 +17,7 @@ version = "0.0.1-SNAPSHOT"
 
 application {
     mainClassName = "io.ktor.server.netty.EngineMain"
+
 }
 
 repositories {
@@ -22,6 +25,14 @@ repositories {
     jcenter()
     maven { url = uri("https://kotlin.bintray.com/ktor") }
 }
+
+tasks.withType<ShadowJar>() {
+    manifest {
+        attributes["Main-Class"] = "com.magnojr.ApplicationKr"
+    }
+}
+
+
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version")

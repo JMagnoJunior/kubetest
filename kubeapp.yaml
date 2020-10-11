@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubeapp
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: kubeapp
+      version: blue
+  template:
+    metadata:
+      name: kubeapp-pod
+      labels:
+        app: kubeapp
+        version: blue
+    spec:
+      containers:
+        - name: kubeapp-container
+          image: jmagnojunior/kubetest:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
